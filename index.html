@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page suivante</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: rgba(30, 30, 40, 0.9);
+            border-radius: 30px;
+            padding: 50px 40px;
+            max-width: 600px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        h1 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #ccc;
+            font-size: 1.1rem;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        .fake-passwords {
+            background-color: #0f0f1a;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: left;
+            font-family: monospace;
+            font-size: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .fake-passwords p {
+            color: #aaffaa;
+            margin: 8px 0;
+            font-size: 0.75rem;
+            border-bottom: 1px solid #333;
+            padding: 5px 0;
+        }
+
+        .back-btn {
+            background-color: #3a6ea5;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background-color: #2c547c;
+            transform: scale(1.02);
+        }
+
+        .warning {
+            color: #ffaa66;
+            font-size: 0.7rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Bienvenue sur la page suivante 🎉</h1>
+        <p>Tu as cliqué sur <strong>"Click Here!"</strong> et tu as été redirigé ici.</p>
+        <p>🔽 Voici 10 identifiants <strong>FACTICES</strong> supplémentaires (aucune donnée réelle) :</p>
+
+        <div id="fakeArea" class="fake-passwords">
+            <p style="color:#888;">Chargement...</p>
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='index.html'">⬅ Retour à l'accueil</button>
+        <div class="warning">⚠️ Ces identifiants sont générés aléatoirement et ne correspondent à aucun compte existant.</div>
+    </div>
+
+    <script>
+        function randomString(length, useSpecial = true) {
+            const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const digits = '0123456789';
+            const specials = '!@#$%^&*?';
+            let chars = letters + digits;
+            if (useSpecial) chars += specials;
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        function generateFakeCredentials() {
+            const credentials = [];
+            const fakeNames = [
+                "Tom", "Lise", "Max", "Nina", "Leo", "Eva", "Sam", "Lola", "Kim", "Axel",
+                "Maya", "Jade", "Ryan", "Lisa", "Hugo", "Anna", "Noe", "Sofia", "Paul", "Iris"
+            ];
+            
+            for (let i = 0; i < 10; i++) {
+                const username = fakeNames[Math.floor(Math.random() * fakeNames.length)] + 
+                                "_" + Math.floor(Math.random() * 9000 + 1000);
+                const password = randomString(11, true);
+                credentials.push({ username, password });
+            }
+            return credentials;
+        }
+
+        function displayFakeCredentials() {
+            const container = document.getElementById("fakeArea");
+            const creds = generateFakeCredentials();
+            container.innerHTML = "";
+            
+            creds.forEach((cred, idx) => {
+                const p = document.createElement("p");
+                p.innerHTML = `<strong>👤 ${idx+1}.</strong> ${cred.username} &nbsp;|&nbsp; <strong>🔑</strong> ${cred.password}`;
+                container.appendChild(p);
+            });
+            
+            const note = document.createElement("p");
+            note.style.color = "#ffaa88";
+            note.style.marginTop = "10px";
+            note.innerHTML = "🔒 Aucune donnée réelle - simple démonstration visuelle.";
+            container.appendChild(note);
+        }
+
+        displayFakeCredentials();
+    </script>
+</body>
+      </html>
